@@ -119,6 +119,10 @@ func createFields(param interface{}) []Field {
 		fd := val.Field(i)
 		kd := fd.Kind()
 		ty := typ.Field(i)
+		
+		if shouldIgnoreField(ty) {
+			continue
+		}
 		field := Field{
 			Name:        capitalize(ty.Name),
 			Kind:        kd.String(),
@@ -139,8 +143,16 @@ func createFields(param interface{}) []Field {
 func getDescription(field reflect.StructField) string {
 	tag := field.Tag.Get("doc")
 	desc := strings.Trim(tag, " ")
-	desc = strings.TrimRight(desc, "required")
+	desc = strings.TrimSuffix(desc, "required")
 	return desc
+}
+
+// 是否忽略此字段
+func shouldIgnoreField(field reflect.StructField) bool {
+	tag := field.Tag.Get("doc")
+	desc := strings.Trim(tag, " ")
+	desc = strings.TrimSuffix(desc, "required")
+	return desc=="-"
 }
 
 // 判断是否必填
