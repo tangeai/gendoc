@@ -102,7 +102,7 @@ func createFields(param interface{}) []Field {
 	if !val.IsValid() {
 		panic("not valid")
 	}
-	fmt.Println(val.Kind())
+
 	if val.Kind() == reflect.Slice {
 		if val.Len() > 0 {
 			val = val.Index(0)
@@ -124,7 +124,7 @@ func createFields(param interface{}) []Field {
 			continue
 		}
 		field := Field{
-			Name:        capitalize(ty.Name),
+			Name:        ty.Name,
 			Kind:        kd.String(),
 			Required:    getRequired(ty),
 			Description: getDescription(ty),
