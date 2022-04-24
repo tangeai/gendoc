@@ -1,7 +1,6 @@
 package gendoc
 
 import (
-	"fmt"
 	"reflect"
 	"strings"
 )
